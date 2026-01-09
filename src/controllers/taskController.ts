@@ -3,8 +3,8 @@ import { tasks, Task } from "../models/taskModel";
 import { v4 as uuidv4} from 'uuid';
 export const createTask = (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { name } = req.body;
-    const newTask: Task = { id: uuidv4(), name };
+    const taskInfo = req.body;
+    const newTask: Task = { id: uuidv4(), ...taskInfo };
     tasks.push(newTask);
     res.status(201).json(newTask);
   } catch (error) {
