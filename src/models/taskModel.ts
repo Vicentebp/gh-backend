@@ -1,4 +1,4 @@
-export interface Task {
+export type Task = {
   id: string;
   userId: string;
   name: string;
@@ -7,6 +7,4 @@ export interface Task {
   dueTime: Date;
   status: "Pendente" | "em andamento" | "completa";
   dateCreated: Date;
-}
-
-export const tasks: Task[] = [];
+};

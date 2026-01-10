@@ -1,12 +1,17 @@
 import type { Request, Response, NextFunction } from "express";
-import { tasks, Task } from "../models/taskModel";
-import { v4 as uuidv4} from 'uuid';
-export const createTask = (req: Request, res: Response, next: NextFunction) => {
+import type { Task } from "../models/taskModel.ts";
+import { client } from "../proxy/index.ts";
+
+export const createTask = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const taskInfo = req.body;
-    const newTask: Task = { id: uuidv4(), ...taskInfo };
-    tasks.push(newTask);
-    res.status(201).json(newTask);
+    console.log("Creating a new task");
+    console.log(req.body);
+    const taskInfo: Task = req.body;
+    const db = client.db("myDeployment");
+    const collection = db.collection("tasks");
+    const result = await collection.insertOne(taskInfo);
+    console.log(result);
+    res.status(201).json(taskInfo);
   } catch (error) {
     next(error);
   }
